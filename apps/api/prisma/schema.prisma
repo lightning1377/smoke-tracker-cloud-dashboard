@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  passwordHash  String
+  displayName   String?
+  timezone      String         @default("UTC")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  smokeItems    SmokeItem[]
+  smokeLogs     SmokeLog[]
+  goals         Goal[]
+  refreshTokens RefreshToken[]
+  exportJobs    ExportJob[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model SmokeItem {
+  id           String     @id @default(uuid())
+  userId       String
+  name         String
+  pricePerUnit Decimal    @db.Decimal(10, 2)
+  color        String
+  icon         String
+  dailyTarget  Int?
+  isArchived   Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs         SmokeLog[]
+  goals        Goal[]
+
+  @@index([userId])
+  @@map("smoke_items")
+}
+
+model SmokeLog {
+  id          String    @id @default(uuid())
+  userId      String
+  smokeItemId String
+  timestamp   DateTime
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  smokeItem   SmokeItem @relation(fields: [smokeItemId], references: [id])
+
+  @@index([userId, timestamp])
+  @@index([smokeItemId, timestamp])
+  @@map("smoke_logs")
+}
+
+model Goal {
+  id                 String    @id @default(uuid())
+  userId             String
+  smokeItemId        String
+  type               GoalType
+  isActive           Boolean   @default(true)
+  targetDate         DateTime?
+  targetDailyAmount  Int?
+  startingDailyLimit Int?
+  dailyLimit         Int?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  smokeItem          SmokeItem @relation(fields: [smokeItemId], references: [id])
+
+  @@index([userId, isActive])
+  @@index([smokeItemId])
+  @@map("goals")
+}
+
+model ExportJob {
+  id           String       @id @default(uuid())
+  userId       String
+  status       ExportStatus
+  format       ExportFormat
+  s3Key        String?
+  errorMessage String?
+  createdAt    DateTime     @default(now())
+  completedAt  DateTime?
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("export_jobs")
+}
+
+enum GoalType {
+  reduction
+  limit
+}
+
+enum ExportStatus {
+  pending
+  processing
+  completed
+  failed
+}
+
+enum ExportFormat {
+  csv
+  json
+}

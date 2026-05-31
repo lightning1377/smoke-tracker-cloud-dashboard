@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.turbo/
+.DS_Store
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+apps/api/prisma/migrations/*/migration_lock.toml
+infra/terraform/**/.terraform/
+infra/terraform/**/*.tfstate
+infra/terraform/**/*.tfstate.*

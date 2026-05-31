@@ -1,0 +1,6 @@
+aws_region   = "us-east-1"
+project_name = "smoke-tracker-cloud-dashboard"
+api_image    = "123456789012.dkr.ecr.us-east-1.amazonaws.com/smoke-tracker-cloud-dashboard-api:latest"
+
+# Use a real value only in your local terraform.tfvars or TF_VAR_database_password.
+database_password = "replace-with-a-strong-local-only-password"
