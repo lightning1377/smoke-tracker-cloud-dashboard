@@ -10,9 +10,13 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src --ext .ts",
     "test": "vitest run --passWithNoTests",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio"
+    "db:generate": "node scripts/prisma-command.mjs generate",
+    "db:migrate": "node scripts/prisma-command.mjs migrate dev",
+    "db:seed": "node scripts/prisma-command.mjs db seed",
+    "db:studio": "node scripts/prisma-command.mjs studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.1",

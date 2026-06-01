@@ -19,6 +19,14 @@ pnpm install
 ```sh
 pnpm db:generate
 pnpm db:migrate
+pnpm db:seed
+```
+
+Seeded demo login:
+
+```txt
+Email: demo@smoketracker.local
+Password: Password123!
 ```
 
 ## Run Apps

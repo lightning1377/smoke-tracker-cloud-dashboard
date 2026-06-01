@@ -3,8 +3,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AppShell } from "./components/AppShell";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./lib/auth";
 import { DashboardPage } from "./pages/DashboardPage";
-import { ExportsPage } from "./pages/ExportsPage";
+import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { GoalsPage } from "./pages/GoalsPage";
 import { ItemsPage } from "./pages/ItemsPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -18,21 +20,31 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route element={<AppShell />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/items" element={<ItemsPage />} />
-            <Route path="/logs" element={<LogsPage />} />
-            <Route path="/goals" element={<GoalsPage />} />
-            <Route path="/exports" element={<ExportsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public auth routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+
+            {/* Protected application routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AppShell />}>
+                <Route path="/home" element={<DashboardPage />} />
+                <Route path="/items" element={<ItemsPage />} />
+                <Route path="/logs" element={<LogsPage />} />
+                <Route path="/targets" element={<GoalsPage />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+              </Route>
+            </Route>
+
+            {/* Fallbacks */}
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -40,10 +40,18 @@ pnpm install
 docker compose up -d mysql
 pnpm db:generate
 pnpm db:migrate
+pnpm db:seed
 pnpm dev
 ```
 
 The API runs on `http://localhost:4000` and the web app runs on `http://localhost:5173`.
+
+Seeded demo login:
+
+```txt
+Email: demo@smoketracker.local
+Password: Password123!
+```
 
 ## API Surface
 
@@ -60,6 +68,7 @@ The API runs on `http://localhost:4000` and the web app runs on `http://localhos
 - `GET /v1/analytics/daily-stats`
 - `GET /v1/analytics/daily-target-progress`
 - `POST /v1/exports`
+- `GET /v1/exports/download?format=csv|json`
 - `GET /health`
 - `GET /ready`
 

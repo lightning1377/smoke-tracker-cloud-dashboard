@@ -7,7 +7,7 @@ export const limitGoalSchema = z.object({
   dailyLimit: z.number().int().positive(),
   targetDate: z.null().optional(),
   targetDailyAmount: z.null().optional(),
-  startingDailyLimit: z.null().optional()
+  startingDailyLimit: z.null().optional(),
 });
 
 export const reductionGoalSchema = z.object({
@@ -17,18 +17,12 @@ export const reductionGoalSchema = z.object({
   targetDate: z.string().date(),
   targetDailyAmount: z.number().int().nonnegative(),
   startingDailyLimit: z.number().int().positive(),
-  dailyLimit: z.null().optional()
+  dailyLimit: z.null().optional(),
 });
 
-export const goalCreateSchema = z.discriminatedUnion("type", [
-  limitGoalSchema,
-  reductionGoalSchema
-]);
+export const goalCreateSchema = z.discriminatedUnion("type", [limitGoalSchema, reductionGoalSchema]);
 
-export const goalUpdateSchema = z.union([
-  limitGoalSchema.partial(),
-  reductionGoalSchema.partial()
-]);
+export const goalUpdateSchema = z.union([limitGoalSchema.partial(), reductionGoalSchema.partial()]);
 
 export type GoalCreateInput = z.infer<typeof goalCreateSchema>;
 export type GoalUpdateInput = z.infer<typeof goalUpdateSchema>;

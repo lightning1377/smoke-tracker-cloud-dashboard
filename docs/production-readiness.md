@@ -13,12 +13,12 @@
 - [x] Health and readiness endpoints
 - [x] Basic security group boundaries
 - [x] Secrets Manager placeholders
+- [x] Local cookie-based auth and Prisma-backed CRUD
+- [x] Local CSV/JSON exports
 
 ## Future Improvements
 
-- [ ] Full auth implementation with refresh token rotation
-- [ ] Database-backed CRUD routes
-- [ ] Export file generation and signed URLs
+- [ ] S3 export storage and signed URLs
 - [ ] Blue/green deployments
 - [ ] WAF rules
 - [ ] Multi-AZ RDS

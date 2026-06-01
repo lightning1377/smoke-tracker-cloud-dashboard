@@ -3,12 +3,7 @@ import tseslint from "typescript-eslint";
 
 export default [
   {
-    ignores: [
-      "**/dist/**",
-      "**/node_modules/**",
-      "apps/web/dist/**",
-      "pnpm-lock.yaml"
-    ]
+    ignores: ["**/dist/**", "**/node_modules/**", "apps/web/dist/**", "pnpm-lock.yaml"],
   },
   ...tseslint.configs.recommended,
   {
@@ -16,12 +11,12 @@ export default [
     languageOptions: {
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: import.meta.dirname
+        tsconfigRootDir: import.meta.dirname,
       },
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
-    }
-  }
+        ...globals.node,
+      },
+    },
+  },
 ];

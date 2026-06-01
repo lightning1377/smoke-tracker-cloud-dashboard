@@ -5,11 +5,11 @@ export const smokeItemCreateSchema = z.object({
   pricePerUnit: z.number().nonnegative(),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   icon: z.string().trim().min(1).max(40),
-  dailyTarget: z.number().int().positive().nullable().optional()
+  dailyTarget: z.number().int().positive().nullable().optional(),
 });
 
 export const smokeItemUpdateSchema = smokeItemCreateSchema.partial().extend({
-  isArchived: z.boolean().optional()
+  isArchived: z.boolean().optional(),
 });
 
 export type SmokeItemCreateInput = z.infer<typeof smokeItemCreateSchema>;

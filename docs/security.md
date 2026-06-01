@@ -18,7 +18,7 @@
 The API is designed around:
 
 - Argon2 password hashing
-- Short-lived JWT access tokens
+- Short-lived JWT access tokens stored in HTTP-only cookies
 - HTTP-only refresh cookie
 - Refresh token rotation
 - Revocation via the `refresh_tokens` table

@@ -48,3 +48,6 @@ Deletes should archive items instead of hard-deleting them because logs and anal
 - `POST /v1/exports`
 - `GET /v1/exports`
 - `GET /v1/exports/:id/download-url`
+- `GET /v1/exports/download?format=csv|json`
+
+Local development uses direct authenticated downloads. AWS deployment can later move export files to S3 and return signed URLs.

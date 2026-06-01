@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+.pnpm-store/
+
+# Build artifacts
+dist/
+build/
+.next/
+out/
+
+# Database / Prisma generated files
+node_modules/.pnpm/
+prisma/migrations/
+
+# Environmental variables
+.env
+.env.*
+
+# Local lockfiles
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

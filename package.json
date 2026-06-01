@@ -12,7 +12,9 @@
     "test": "pnpm -r test",
     "db:generate": "pnpm --filter @smoke-tracker/api db:generate",
     "db:migrate": "pnpm --filter @smoke-tracker/api db:migrate",
-    "db:studio": "pnpm --filter @smoke-tracker/api db:studio"
+    "db:seed": "pnpm --filter @smoke-tracker/api db:seed",
+    "db:studio": "pnpm --filter @smoke-tracker/api db:studio",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/node": "^22.10.5",

@@ -42,3 +42,5 @@ The `deploy-web.yml` workflow:
 ## Environment Variables
 
 Runtime secrets should live in AWS Secrets Manager. Local values are documented in `.env.example`.
+
+Local exports are generated directly by the API at `/v1/exports/download?format=csv|json`. In AWS, this can be upgraded to S3-backed export storage and signed URLs.

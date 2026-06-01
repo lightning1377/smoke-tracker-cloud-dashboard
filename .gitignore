@@ -8,7 +8,9 @@ build/
 !.env.example
 coverage/
 *.log
-apps/api/prisma/migrations/*/migration_lock.toml
 infra/terraform/**/.terraform/
 infra/terraform/**/*.tfstate
 infra/terraform/**/*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.local.tfvars

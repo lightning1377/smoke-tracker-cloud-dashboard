@@ -7,9 +7,10 @@ const configSchema = z.object({
   WEB_ORIGIN: z.string().url().default("http://localhost:5173"),
   JWT_ISSUER: z.string().min(1).default("smoke-tracker-cloud-dashboard"),
   JWT_AUDIENCE: z.string().min(1).default("smoke-tracker-users"),
+  ACCESS_COOKIE_NAME: z.string().min(1).default("smoke_access"),
   ACCESS_TOKEN_SECRET: z.string().min(32),
   REFRESH_TOKEN_SECRET: z.string().min(32),
-  REFRESH_COOKIE_NAME: z.string().min(1).default("smoke_refresh")
+  REFRESH_COOKIE_NAME: z.string().min(1).default("smoke_refresh"),
 });
 
 export const config = configSchema.parse(process.env);
