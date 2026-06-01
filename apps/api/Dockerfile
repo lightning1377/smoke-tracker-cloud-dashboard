@@ -29,4 +29,4 @@ COPY --from=build /app/packages/shared/node_modules ./packages/shared/node_modul
 COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 WORKDIR /app/apps/api
 EXPOSE 4000
-CMD ["node", "dist/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && exec node dist/server.js"]
