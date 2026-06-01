@@ -7,7 +7,17 @@ import type {
   UserProfile,
 } from "@smoke-tracker/shared";
 
-export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000";
+export const apiBaseUrl = (() => {
+  const url = import.meta.env.VITE_API_BASE_URL;
+  if (url === undefined || url === null) {
+    return "http://localhost:4000";
+  }
+  if (url === "/" || url === "") {
+    return "";
+  }
+  return url;
+})();
+
 
 export class ApiError extends Error {
   constructor(

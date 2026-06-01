@@ -71,6 +71,7 @@ module "ecs" {
 }
 
 module "frontend" {
-  source       = "../../modules/frontend"
-  project_name = var.project_name
+  source           = "../../modules/frontend"
+  project_name     = var.project_name
+  api_alb_dns_name = module.ecs.alb_dns_name
 }
