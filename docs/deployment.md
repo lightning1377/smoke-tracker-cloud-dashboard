@@ -124,20 +124,10 @@ Go to the **AWS Secrets Manager** console, select the created secrets, and enter
 
 ---
 
-## 🚀 Phase 5: Run Deployments and DB Migrations
+## 🚀 Phase 5: Run Deployments
 
-### 1. Run GitHub Actions Deployments
+### Run GitHub Actions Deployments
 Go to the **Actions** tab of your repository, select **Deploy API** and **Deploy Web** from the sidebar, and trigger both manually using the **Run workflow** dropdown (on the `main` branch).
 
-### 2. Run Database Migrations
-Since the RDS instance resides in a private VPC subnet for safety, you cannot access it directly from your local terminal. To run your migrations and seed the database, execute a one-off task on your ECS Fargate cluster:
+*(Note: Database migrations run automatically on API startup inside ECS, so no manual database execution step is required).*
 
-```sh
-aws ecs run-task \
-  --cluster smoke-tracker-cloud-dashboard-cluster \
-  --task-definition smoke-tracker-cloud-dashboard-api \
-  --launch-type FARGATE \
-  --network-configuration "awsvpcConfiguration={subnets=[<PUBLIC_SUBNET_ID>],securityGroups=[<SERVICE_SG_ID>],assignPublicIp=ENABLED}" \
-  --overrides '{"containerOverrides": [{"name": "api", "command": ["npx", "prisma", "migrate", "deploy"]}]}'
-```
-*(Replace `<PUBLIC_SUBNET_ID>` and `<SERVICE_SG_ID>` with your AWS networking resource IDs).*
