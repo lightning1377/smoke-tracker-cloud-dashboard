@@ -1,16 +1,16 @@
 import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 import argon2 from "argon2";
 import { loginSchema, registerSchema } from "@smoke-tracker/shared";
-import { clearAuthCookies, setAuthCookies } from "../lib/cookies";
-import { serializeUser } from "../lib/serializers";
+import { clearAuthCookies, setAuthCookies } from "../lib/cookies.js";
+import { serializeUser } from "../lib/serializers.js";
 import {
   createAccessToken,
   createRefreshTokenSecret,
   decodeRefreshToken,
   encodeRefreshToken,
   hashRefreshTokenSecret,
-} from "../lib/tokens";
-import { config } from "../config";
+} from "../lib/tokens.js";
+import { config } from "../config.js";
 
 const refreshTokenDays = 30;
 

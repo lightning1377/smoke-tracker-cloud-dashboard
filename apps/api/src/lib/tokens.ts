@@ -1,6 +1,6 @@
 import { randomBytes, createHash } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
-import { config } from "../config";
+import { config } from "../config.js";
 
 const accessSecret = new TextEncoder().encode(config.ACCESS_TOKEN_SECRET);
 

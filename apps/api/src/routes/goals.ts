@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { goalCreateSchema, goalUpdateSchema } from "@smoke-tracker/shared";
-import { serializeGoal } from "../lib/serializers";
+import { serializeGoal } from "../lib/serializers.js";
 
 const paramsSchema = z.object({
   id: z.string().uuid(),

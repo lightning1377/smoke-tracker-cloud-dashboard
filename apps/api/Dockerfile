@@ -28,4 +28,4 @@ COPY --from=build /app/packages/shared/package.json ./packages/shared/package.js
 COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 WORKDIR /app/apps/api
 EXPOSE 4000
-CMD ["node", "--experimental-specifier-resolution=node", "dist/server.js"]
+CMD ["node", "dist/server.js"]

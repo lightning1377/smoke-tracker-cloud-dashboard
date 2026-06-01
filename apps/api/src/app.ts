@@ -4,17 +4,17 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import Fastify from "fastify";
 import { ZodError } from "zod";
-import { config } from "./config";
-import { clearAuthCookies } from "./lib/cookies";
-import { serializeUser } from "./lib/serializers";
-import { authPlugin } from "./plugins/auth";
-import { prismaPlugin } from "./plugins/prisma";
-import { analyticsRoutes } from "./routes/analytics";
-import { authRoutes } from "./routes/auth";
-import { exportRoutes } from "./routes/exports";
-import { goalRoutes } from "./routes/goals";
-import { smokeItemRoutes } from "./routes/smoke-items";
-import { smokeLogRoutes } from "./routes/smoke-logs";
+import { config } from "./config.js";
+import { clearAuthCookies } from "./lib/cookies.js";
+import { serializeUser } from "./lib/serializers.js";
+import { authPlugin } from "./plugins/auth.js";
+import { prismaPlugin } from "./plugins/prisma.js";
+import { analyticsRoutes } from "./routes/analytics.js";
+import { authRoutes } from "./routes/auth.js";
+import { exportRoutes } from "./routes/exports.js";
+import { goalRoutes } from "./routes/goals.js";
+import { smokeItemRoutes } from "./routes/smoke-items.js";
+import { smokeLogRoutes } from "./routes/smoke-logs.js";
 
 export async function buildApp() {
   const app = Fastify({

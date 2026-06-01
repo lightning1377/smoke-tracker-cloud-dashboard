@@ -1,8 +1,8 @@
 import fp from "fastify-plugin";
 import type { User } from "@prisma/client";
 import type { FastifyReply } from "fastify";
-import { config } from "../config";
-import { verifyAccessToken } from "../lib/tokens";
+import { config } from "../config.js";
+import { verifyAccessToken } from "../lib/tokens.js";
 
 declare module "fastify" {
   interface FastifyRequest {

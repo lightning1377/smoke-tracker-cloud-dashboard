@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
-import { serializeGoal, serializeSmokeItem, serializeSmokeLog } from "../lib/serializers";
+import { serializeGoal, serializeSmokeItem, serializeSmokeLog } from "../lib/serializers.js";
 
 const downloadQuerySchema = z.object({
   format: z.enum(["csv", "json"]).default("csv"),

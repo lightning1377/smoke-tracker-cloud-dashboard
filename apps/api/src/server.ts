@@ -3,8 +3,8 @@ import { config as loadEnv } from "dotenv";
 loadEnv({ path: "../../.env" });
 loadEnv();
 
-const { buildApp } = await import("./app");
-const { config } = await import("./config");
+const { buildApp } = await import("./app.js");
+const { config } = await import("./config.js");
 
 const app = await buildApp();
 
