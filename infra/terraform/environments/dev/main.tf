@@ -67,6 +67,7 @@ module "ecs" {
   database_url_secret_arn = module.secrets.database_url_secret_arn
   jwt_secret_arn          = module.secrets.jwt_secret_arn
   log_group_name          = module.monitoring.api_log_group_name
+  web_origin              = "https://${module.frontend.cloudfront_domain_name}"
 }
 
 module "frontend" {

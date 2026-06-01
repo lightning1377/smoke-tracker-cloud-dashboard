@@ -104,9 +104,14 @@ resource "aws_ecs_task_definition" "api" {
           awslogs-stream-prefix = "api"
         }
       }
+      environment = [
+        { name = "NODE_ENV", value = "production" },
+        { name = "WEB_ORIGIN", value = var.web_origin }
+      ]
       secrets = [
         { name = "DATABASE_URL", valueFrom = var.database_url_secret_arn },
-        { name = "ACCESS_TOKEN_SECRET", valueFrom = var.jwt_secret_arn }
+        { name = "ACCESS_TOKEN_SECRET", valueFrom = var.jwt_secret_arn },
+        { name = "REFRESH_TOKEN_SECRET", valueFrom = var.jwt_secret_arn }
       ]
     }
   ])

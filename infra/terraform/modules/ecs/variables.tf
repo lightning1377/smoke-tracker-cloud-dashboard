@@ -41,3 +41,8 @@ variable "jwt_secret_arn" {
 variable "log_group_name" {
   type = string
 }
+
+variable "web_origin" {
+  type        = string
+  description = "The allowed CORS origin URL of the web frontend"
+}
