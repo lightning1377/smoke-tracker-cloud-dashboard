@@ -9,7 +9,7 @@
 - MySQL security group allows traffic only from ECS tasks
 - Frontend S3 bucket blocks public access
 - CloudFront Origin Access Control for frontend assets
-- Private exports bucket planned for generated files
+- Signed URLs for export downloads
 - Rate limiting registered in the Fastify API
 - HTTP security headers registered through Fastify Helmet
 
@@ -31,4 +31,3 @@ The API is designed around:
 - OpenTelemetry traces
 - Multi-AZ RDS
 - Automated backup restore testing
-- Signed URLs for export downloads
