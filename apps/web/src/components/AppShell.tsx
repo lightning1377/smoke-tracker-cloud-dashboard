@@ -66,7 +66,7 @@ export function AppShell() {
             type="button"
             aria-label="Log out"
             onClick={() => {
-              void auth.logout().then(() => navigate("/login"));
+              auth.logout().then(() => navigate("/login"));
             }}
             id="sidebar-logout-btn"
           >
@@ -99,7 +99,7 @@ export function AppShell() {
             type="button"
             aria-label="Log out"
             onClick={() => {
-              void auth.logout().then(() => navigate("/login"));
+              auth.logout().then(() => navigate("/login"));
             }}
             id="mobile-logout-btn"
           >

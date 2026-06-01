@@ -17,7 +17,7 @@ export function LoginPage() {
           event.preventDefault();
           setError(null);
           const form = new FormData(event.currentTarget);
-          void auth
+          auth
             .login({
               email: formValue(form, "email"),
               password: formValue(form, "password"),

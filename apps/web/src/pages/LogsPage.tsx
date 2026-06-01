@@ -54,13 +54,13 @@ export function LogsPage() {
   const createLog = useMutation({
     mutationFn: api.createLog,
     onSuccess: () => {
-      void queryClient.invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
   const deleteLog = useMutation({
     mutationFn: api.deleteLog,
     onSuccess: () => {
-      void queryClient.invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
   const total = logs.data?.logs.reduce((sum, log) => sum + log.item.pricePerUnit, 0) ?? 0;

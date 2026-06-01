@@ -59,6 +59,40 @@ resource "aws_iam_role_policy_attachment" "task_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role" "task" {
+  name = "${var.project_name}-api-task"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "task_exports" {
+  name = "${var.project_name}-api-exports"
+  role = aws_iam_role.task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject"
+        ]
+        Effect   = "Allow"
+        Resource = "${var.exports_bucket_arn}/exports/*"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy" "task_execution_secrets" {
   name = "${var.project_name}-task-execution-secrets"
   role = aws_iam_role.task_execution.id
@@ -85,6 +119,7 @@ resource "aws_ecs_task_definition" "api" {
   cpu                      = 256
   memory                   = 512
   execution_role_arn       = aws_iam_role.task_execution.arn
+  task_role_arn            = aws_iam_role.task.arn
 
   container_definitions = jsonencode([
     {
@@ -106,6 +141,8 @@ resource "aws_ecs_task_definition" "api" {
       }
       environment = [
         { name = "NODE_ENV", value = "production" },
+        { name = "AWS_REGION", value = var.aws_region },
+        { name = "S3_EXPORT_BUCKET", value = var.exports_bucket_name },
         { name = "WEB_ORIGIN", value = var.web_origin }
       ]
       secrets = [

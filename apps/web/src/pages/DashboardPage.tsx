@@ -33,7 +33,7 @@ export function DashboardPage() {
       return api.createLog(data);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries();
+      queryClient.invalidateQueries();
       setIsAddModalOpen(false);
       setNotes("");
       setTimestamp(getLocalDateTimeString());

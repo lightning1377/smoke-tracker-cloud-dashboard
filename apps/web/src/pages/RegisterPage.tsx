@@ -16,7 +16,7 @@ export function RegisterPage() {
           event.preventDefault();
           setError(null);
           const form = new FormData(event.currentTarget);
-          void auth
+          auth
             .register({
               displayName: formValue(form, "displayName"),
               email: formValue(form, "email"),

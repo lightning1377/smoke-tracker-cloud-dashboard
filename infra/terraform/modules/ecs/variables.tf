@@ -38,6 +38,14 @@ variable "jwt_secret_arn" {
   type = string
 }
 
+variable "exports_bucket_name" {
+  type = string
+}
+
+variable "exports_bucket_arn" {
+  type = string
+}
+
 variable "log_group_name" {
   type = string
 }

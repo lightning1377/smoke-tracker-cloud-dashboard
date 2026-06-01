@@ -1,6 +1,8 @@
 import type {
   AnalyticsSummary,
   DailyTargetProgress,
+  ExportFormat,
+  ExportJob,
   Goal,
   SmokeItem,
   SmokeLogWithItem,
@@ -17,7 +19,6 @@ export const apiBaseUrl = (() => {
   }
   return url;
 })();
-
 
 export class ApiError extends Error {
   constructor(
@@ -120,8 +121,6 @@ export const api = {
     apiRequest<{ range: string; points: { date: string; count: number; cost: number }[] }>(
       `/v1/analytics/trends?range=${range}${itemId ? `&itemId=${itemId}` : ""}`,
     ),
+  createExport: (body: { format: ExportFormat }) => postJson<{ job: ExportJob }>("/v1/exports", body),
+  exportDownloadUrl: (id: string) => apiRequest<{ url: string; expiresAt: string }>(`/v1/exports/${id}/download-url`),
 };
-
-export function exportUrl(format: "csv" | "json") {
-  return `${apiBaseUrl}/v1/exports/download?format=${format}`;
-}

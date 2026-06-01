@@ -17,13 +17,13 @@ export function GoalsPage() {
   const createGoal = useMutation({
     mutationFn: api.createGoal,
     onSuccess: () => {
-      void queryClient.invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
   const deleteGoal = useMutation({
     mutationFn: api.deleteGoal,
     onSuccess: () => {
-      void queryClient.invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
   const itemById = new Map(items.data?.items.map((item) => [item.id, item]));

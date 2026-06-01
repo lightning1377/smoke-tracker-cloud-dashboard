@@ -41,19 +41,19 @@ export function ItemsPage() {
       queryClient.setQueryData(queryKeys.items, context?.previous);
     },
     onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: queryKeys.items });
+      queryClient.invalidateQueries({ queryKey: queryKeys.items });
     },
   });
   const updateItem = useMutation({
     mutationFn: ({ id, body }: { id: string; body: Partial<SmokeItem> }) => api.updateItem(id, body),
     onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: queryKeys.items });
+      queryClient.invalidateQueries({ queryKey: queryKeys.items });
     },
   });
   const deleteItem = useMutation({
     mutationFn: api.deleteItem,
     onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: queryKeys.items });
+      queryClient.invalidateQueries({ queryKey: queryKeys.items });
     },
   });
 

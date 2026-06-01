@@ -48,6 +48,5 @@ Deletes should archive items instead of hard-deleting them because logs and anal
 - `POST /v1/exports`
 - `GET /v1/exports`
 - `GET /v1/exports/:id/download-url`
-- `GET /v1/exports/download?format=csv|json`
 
-Local development uses direct authenticated downloads. AWS deployment can later move export files to S3 and return signed URLs.
+`POST /v1/exports` creates an export job, writes the generated file to the private S3 exports bucket, and persists the object key on the job. `GET /v1/exports/:id/download-url` returns a short-lived presigned S3 URL for completed jobs.

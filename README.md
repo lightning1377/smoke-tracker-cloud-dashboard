@@ -68,7 +68,8 @@ Password: Password123!
 - `GET /v1/analytics/daily-stats`
 - `GET /v1/analytics/daily-target-progress`
 - `POST /v1/exports`
-- `GET /v1/exports/download?format=csv|json`
+- `GET /v1/exports`
+- `GET /v1/exports/:id/download-url`
 - `GET /health`
 - `GET /ready`
 

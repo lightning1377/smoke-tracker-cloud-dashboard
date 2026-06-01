@@ -15,10 +15,10 @@
 - [x] Secrets Manager placeholders
 - [x] Local cookie-based auth and Prisma-backed CRUD
 - [x] Local CSV/JSON exports
+- [x] S3 export storage and signed URLs
 
 ## Future Improvements
 
-- [ ] S3 export storage and signed URLs
 - [ ] Blue/green deployments
 - [ ] WAF rules
 - [ ] Multi-AZ RDS
