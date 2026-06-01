@@ -5,8 +5,12 @@
 - No secrets committed to GitHub
 - Runtime secrets stored in AWS Secrets Manager
 - GitHub Actions designed for AWS OIDC
+- ECS tasks run in private subnets without public IP addresses
+- ECS tasks have no general internet egress or NAT Gateway route
+- VPC endpoints provide private access to ECR, S3, Secrets Manager, and CloudWatch Logs
 - RDS not publicly accessible
 - MySQL security group allows traffic only from ECS tasks
+- ECS security group egress is limited to RDS, VPC endpoints, and S3
 - Frontend S3 bucket blocks public access
 - CloudFront Origin Access Control for frontend assets
 - Signed URLs for export downloads

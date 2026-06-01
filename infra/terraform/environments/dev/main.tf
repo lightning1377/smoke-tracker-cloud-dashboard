@@ -14,12 +14,13 @@ provider "aws" {
 }
 
 module "network" {
-  source               = "../../modules/network"
-  project_name         = var.project_name
-  vpc_cidr             = var.vpc_cidr
-  availability_zones   = var.availability_zones
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
+  source                     = "../../modules/network"
+  project_name               = var.project_name
+  vpc_cidr                   = var.vpc_cidr
+  availability_zones         = var.availability_zones
+  public_subnet_cidrs        = var.public_subnet_cidrs
+  private_subnet_cidrs       = var.private_subnet_cidrs
+  endpoint_security_group_id = module.security.endpoint_sg_id
 }
 
 module "security" {
@@ -60,6 +61,7 @@ module "ecs" {
   aws_region              = var.aws_region
   vpc_id                  = module.network.vpc_id
   public_subnet_ids       = module.network.public_subnet_ids
+  private_subnet_ids      = module.network.private_subnet_ids
   service_sg_id           = module.security.service_sg_id
   alb_sg_id               = module.security.alb_sg_id
   api_image               = var.api_image
