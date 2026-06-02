@@ -16,6 +16,7 @@
 - [x] Local cookie-based auth and Prisma-backed CRUD
 - [x] Local CSV/JSON exports
 - [x] S3 export storage and signed URLs
+- [x] Private subnet task routing and VPC endpoints (no NAT Gateway)
 
 ## Future Improvements
 

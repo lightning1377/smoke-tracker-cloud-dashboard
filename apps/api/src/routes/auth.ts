@@ -86,9 +86,18 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
       include: { user: true },
     });
 
+    if (currentToken && currentToken.revokedAt && currentToken.tokenHash === hashRefreshTokenSecret(decoded.secret)) {
+      // Replay attack / Token reuse detected: revoke entire token family
+      await app.prisma.refreshToken.updateMany({
+        where: { userId: currentToken.userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      });
+      clearAuthCookies(reply);
+      return reply.code(401).send({ message: "Refresh token is invalid" });
+    }
+
     if (
       !currentToken ||
-      currentToken.revokedAt ||
       currentToken.expiresAt <= new Date() ||
       currentToken.tokenHash !== hashRefreshTokenSecret(decoded.secret)
     ) {
