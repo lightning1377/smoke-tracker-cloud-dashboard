@@ -6,7 +6,7 @@ const port = process.env.PORT || 4000;
 const server = http.createServer((req, res) => {
   console.log(`Received request: ${req.method} ${req.url}`);
 
-  if (req.url === "/health" || req.url === "/ready") {
+  if (req.method === "GET" || req.url === "/health" || req.url === "/ready") {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ status: "ready" }));
     return;
@@ -48,8 +48,6 @@ const server = http.createServer((req, res) => {
             stderr,
           }),
         );
-        // Exit to signal failure to the Lambda runtime
-        setTimeout(() => process.exit(1), 100);
       } else {
         console.log(`Execution completed successfully.`);
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -60,8 +58,6 @@ const server = http.createServer((req, res) => {
             stderr,
           }),
         );
-        // Exit cleanly
-        setTimeout(() => process.exit(0), 100);
       }
     });
   });
