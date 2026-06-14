@@ -78,6 +78,8 @@ Password: Password123!
 See the `docs/` directory for the production architecture, deployment flow, security notes, cost notes, and production-readiness checklist.
 
 > [!NOTE]
-> The repository includes two Terraform environment configurations:
+> The repository includes three Terraform environment configurations:
+>
 > 1. **`production-reference`**: A secure, enterprise-grade architecture with ECS tasks running in private subnets, using private VPC interface endpoints for AWS services.
 > 2. **`live-demo`**: A cost-optimized setup that runs ECS tasks on Fargate Spot in public subnets with public IPs. It bypasses expensive VPC interface endpoints to reduce idle AWS costs by **~77%** while maintaining security via load balancer security group rules.
+> 3. **`serverless-demo`**: An ultra-low-cost setup running Fastify on AWS Lambda and API Gateway (HTTP API), completely eliminating Fargate and ALB idle baseline costs for an additional **~87%** cost reduction. Database remains securely in private subnets.

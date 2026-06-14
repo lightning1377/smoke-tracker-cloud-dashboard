@@ -28,5 +28,7 @@ COPY --from=build /app/packages/shared/package.json ./packages/shared/package.js
 COPY --from=build /app/packages/shared/node_modules ./packages/shared/node_modules
 COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 WORKDIR /app/apps/api
+COPY --from=public.ecr.aws/awsguru/aws-lambda-web-adapter:1.0.1 /lambda-adapter /opt/extensions/lambda-adapter
+ENV PORT=4000
 EXPOSE 4000
-CMD ["sh", "-c", "npx prisma migrate deploy && exec node dist/server.js"]
+CMD ["node", "dist/server.js"]

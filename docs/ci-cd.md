@@ -13,9 +13,9 @@
 
 ## Main Branch
 
-`deploy-api.yml` deploys the containerized API to ECS Fargate.
-
-`deploy-web.yml` deploys static frontend assets to S3 and invalidates CloudFront.
+- **ECS Deployments**: `deploy-api.yml` deploys the containerized API to ECS Fargate by updating the ECS Fargate service (for `live-demo` or `production-reference`).
+- **Serverless Deployments**: Builds the container, pushes it to ECR, invokes the Migration Lambda function to apply Prisma migrations, and triggers an update-function-code command on the main API Lambda function (for `serverless-demo`).
+- **Frontend Deployments**: `deploy-web.yml` deploys static frontend assets to S3 and invalidates CloudFront.
 
 To enable deployments to AWS, set the repository variable `ENABLE_AWS_DEPLOY` to `true` in the GitHub repository settings.
 

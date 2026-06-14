@@ -126,6 +126,7 @@ resource "aws_ecs_task_definition" "api" {
       name      = "api"
       image     = var.api_image
       essential = true
+      command   = ["sh", "-c", "npx prisma migrate deploy && exec node dist/server.js"]
       portMappings = [{
         containerPort = var.api_port
         hostPort      = var.api_port

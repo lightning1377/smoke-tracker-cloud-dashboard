@@ -58,8 +58,11 @@ To mitigate cookie theft and unauthorized session hijackings:
 
 The project adheres to the principle of least privilege using granular AWS IAM roles:
 
-1. **ECS Task Execution Role**: Used by the AWS ECS Agent during container startup.
+1. **ECS Task Execution Role**: Used by the AWS ECS Agent during container startup (in ECS environments).
    - **Scope**: Granted `ecr:GetDownloadUrlForLayer`, `ecr:BatchGetImage` to pull container images, and `secretsmanager:GetSecretValue` to fetch the database string and JWT tokens.
-2. **ECS Task Role**: Used by the Node.js process itself at runtime.
-   - **Scope**: Granted `s3:PutObject` and `s3:GetObject` restricted strictly to the exports bucket path (`arn:aws:s3:::smoke-tracker-cloud-dashboard-exports/exports/*`). It has no execution-level access to ECR or Secrets Manager.
-3. **CloudFront OAC (Origin Access Control)**: Restricts S3 frontend bucket access. Public access is disabled on S3, and only CloudFront signed service principals can retrieve static assets.
+2. **ECS Task Role**: Used by the ECS backend Node.js process itself at runtime.
+   - **Scope**: Granted `s3:PutObject` and `s3:GetObject` restricted strictly to the exports bucket path (`arn:aws:s3:::${var.project_name}-exports/exports/*`).
+3. **AWS Lambda Execution Role**: Used by the Lambda functions at runtime (in the serverless environment).
+   - **Scope**: Granted standard `AWSLambdaVPCAccessExecutionRole` to mount to VPC subnets and write logs. Scoped to allow `s3:PutObject` and `s3:GetObject` ONLY inside the exports path of the S3 bucket.
+4. **Deploy-Time Secrets Injection (Serverless-specific)**: In the `serverless-demo` environment, database URL and JWT credentials are resolved by Terraform at deployment time and injected directly into the Lambda functions' environment variables. This avoids assigning runtime read permissions for AWS Secrets Manager to the Lambda functions, narrowing the attack surface.
+5. **CloudFront OAC (Origin Access Control)**: Restricts S3 frontend bucket access. Public access is disabled on S3, and only CloudFront signed service principals can retrieve static assets.

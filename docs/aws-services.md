@@ -30,4 +30,12 @@ Collects structured API logs and supports basic operational visibility.
 
 ## IAM
 
-Controls deployment, ECS task execution, image pull permissions, secret access, and S3/CloudFront deployment actions.
+Controls deployment, ECS task execution, image pull permissions, secret access, S3/CloudFront deployment actions, and AWS Lambda execution permissions.
+
+## AWS Lambda
+
+Runs the Fastify API containers on-demand in the `serverless-demo` environment, scaling down to zero compute instances when inactive to minimize costs. Also runs a dedicated one-off database migration container.
+
+## AWS API Gateway (HTTP API)
+
+Provides a serverless entry point routing HTTP requests directly to the API Lambda function in the `serverless-demo` environment, completely avoiding ALB idle costs.
