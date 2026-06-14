@@ -78,7 +78,7 @@ resource "aws_lambda_function" "migration" {
   memory_size   = 1024
 
   image_config {
-    command = ["npx", "prisma", "migrate", "deploy"]
+    command = ["node", "prisma/run-migration.js"]
   }
 
   vpc_config {
