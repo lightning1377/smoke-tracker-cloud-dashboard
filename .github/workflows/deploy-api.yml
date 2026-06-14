@@ -38,7 +38,17 @@ jobs:
           if [ -n "$API_LAMBDA" ]; then
             echo "Deploying to AWS Lambda serverless target..."
             
-            # 1. Run Prisma database migrations
+            # 1. Update Migration Lambda code with new ECR image
+            echo "Updating Migration Lambda function code..."
+            aws lambda update-function-code \
+              --function-name "$MIGRATION_LAMBDA" \
+              --image-uri "$ECR_REPOSITORY:$GITHUB_SHA"
+            
+            # 2. Wait for Migration Lambda update to complete
+            aws lambda wait function-updated-v2 \
+              --function-name "$MIGRATION_LAMBDA"
+
+            # 3. Run Prisma database migrations
             echo "Running Prisma migrations..."
             INVOKE_OUT=$(aws lambda invoke --function-name "$MIGRATION_LAMBDA" response.json)
             echo "$INVOKE_OUT"
@@ -48,13 +58,13 @@ jobs:
               exit 1
             fi
             
-            # 2. Update API Lambda code with new ECR image
-            echo "Updating Lambda function code..."
+            # 4. Update API Lambda code with new ECR image
+            echo "Updating API Lambda function code..."
             aws lambda update-function-code \
               --function-name "$API_LAMBDA" \
               --image-uri "$ECR_REPOSITORY:$GITHUB_SHA"
             
-            # 3. Wait for Lambda update to complete
+            # 5. Wait for API Lambda update to complete
             aws lambda wait function-updated-v2 \
               --function-name "$API_LAMBDA"
           else
