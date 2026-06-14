@@ -1,3 +1,11 @@
+data "aws_cloudfront_cache_policy" "caching_disabled" {
+  name = "Managed-CachingDisabled"
+}
+
+data "aws_cloudfront_origin_request_policy" "all_viewer_except_host" {
+  name = "Managed-AllViewerExceptHostHeader"
+}
+
 resource "aws_s3_bucket" "frontend" {
   bucket = "${var.project_name}-frontend"
 }
@@ -73,19 +81,10 @@ resource "aws_cloudfront_distribution" "frontend" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "api-alb"
 
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
+    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_viewer_except_host.id
 
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
   }
 
   ordered_cache_behavior {
@@ -94,19 +93,8 @@ resource "aws_cloudfront_distribution" "frontend" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "api-alb"
 
-    forwarded_values {
-      query_string = false
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
+    cache_policy_id        = data.aws_cloudfront_cache_policy.caching_disabled.id
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
   }
 
   ordered_cache_behavior {
@@ -115,19 +103,8 @@ resource "aws_cloudfront_distribution" "frontend" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "api-alb"
 
-    forwarded_values {
-      query_string = false
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
+    cache_policy_id        = data.aws_cloudfront_cache_policy.caching_disabled.id
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
   }
 
   custom_error_response {

@@ -40,9 +40,10 @@ jobs:
             
             # 1. Run Prisma database migrations
             echo "Running Prisma migrations..."
-            aws lambda invoke --function-name "$MIGRATION_LAMBDA" response.json
+            INVOKE_OUT=$(aws lambda invoke --function-name "$MIGRATION_LAMBDA" response.json)
+            echo "$INVOKE_OUT"
             cat response.json
-            if grep -q "FunctionError" response.json; then
+            if echo "$INVOKE_OUT" | grep -q "FunctionError" || grep -q "errorType" response.json; then
               echo "Error: Database migrations failed!"
               exit 1
             fi
