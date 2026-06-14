@@ -58,3 +58,15 @@ variable "web_origin" {
   type        = string
   description = "The allowed CORS origin URL of the web frontend"
 }
+
+variable "assign_public_ip" {
+  type        = bool
+  default     = false
+  description = "Whether to assign a public IP to the ECS tasks"
+}
+
+variable "use_fargate_spot" {
+  type        = bool
+  default     = false
+  description = "Whether to use Fargate Spot capacity provider"
+}

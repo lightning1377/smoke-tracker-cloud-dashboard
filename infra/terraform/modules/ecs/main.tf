@@ -159,12 +159,20 @@ resource "aws_ecs_service" "api" {
   cluster         = aws_ecs_cluster.this.id
   task_definition = aws_ecs_task_definition.api.arn
   desired_count   = 1
-  launch_type     = "FARGATE"
+  launch_type     = var.use_fargate_spot ? null : "FARGATE"
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_fargate_spot ? [1] : []
+    content {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 1
+    }
+  }
 
   network_configuration {
-    subnets          = var.private_subnet_ids
+    subnets          = var.assign_public_ip ? var.public_subnet_ids : var.private_subnet_ids
     security_groups  = [var.service_sg_id]
-    assign_public_ip = false
+    assign_public_ip = var.assign_public_ip
   }
 
   load_balancer {

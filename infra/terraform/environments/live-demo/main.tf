@@ -14,13 +14,12 @@ provider "aws" {
 }
 
 module "network" {
-  source                     = "../../modules/network"
-  project_name               = var.project_name
-  vpc_cidr                   = var.vpc_cidr
-  availability_zones         = var.availability_zones
-  public_subnet_cidrs        = var.public_subnet_cidrs
-  private_subnet_cidrs       = var.private_subnet_cidrs
-  endpoint_security_group_id = module.security.endpoint_sg_id
+  source               = "../../modules/network"
+  project_name         = var.project_name
+  vpc_cidr             = var.vpc_cidr
+  availability_zones   = var.availability_zones
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
 }
 
 module "security" {
@@ -72,6 +71,8 @@ module "ecs" {
   exports_bucket_arn      = module.frontend.exports_bucket_arn
   log_group_name          = module.monitoring.api_log_group_name
   web_origin              = "https://${module.frontend.cloudfront_domain_name}"
+  assign_public_ip        = true
+  use_fargate_spot        = true
 }
 
 module "frontend" {

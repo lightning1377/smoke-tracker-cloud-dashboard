@@ -29,7 +29,7 @@ apps/
 packages/
   shared/    Shared TypeScript types and Zod schemas
 infra/
-  terraform/ AWS infrastructure modules and dev environment
+  terraform/ AWS infrastructure modules, cost-optimized live-demo, and enterprise production-reference environments
 docs/        Architecture, deployment, security, cost, and readiness notes
 ```
 
@@ -76,3 +76,8 @@ Password: Password123!
 ## AWS Case Study
 
 See the `docs/` directory for the production architecture, deployment flow, security notes, cost notes, and production-readiness checklist.
+
+> [!NOTE]
+> The repository includes two Terraform environment configurations:
+> 1. **`production-reference`**: A secure, enterprise-grade architecture with ECS tasks running in private subnets, using private VPC interface endpoints for AWS services.
+> 2. **`live-demo`**: A cost-optimized setup that runs ECS tasks on Fargate Spot in public subnets with public IPs. It bypasses expensive VPC interface endpoints to reduce idle AWS costs by **~77%** while maintaining security via load balancer security group rules.

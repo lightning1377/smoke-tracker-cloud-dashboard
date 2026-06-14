@@ -13,14 +13,19 @@
 - Start with one small Fargate service.
 - Use a small RDS instance class for the dev case study.
 - Keep CloudWatch retention at 14 days.
-- Avoid NAT Gateway in the dev topology by using VPC endpoints for required AWS service access.
-- Keep ECS tasks private without paying for general outbound internet egress.
+- In the `production-reference` topology, we avoid NAT Gateways by using private VPC endpoints.
+- In the `live-demo` topology, we save ~$86/month by completely eliminating Interface VPC endpoints and running ECS tasks on Fargate Spot in public subnets, using the Internet Gateway (free) for egress.
 - Provide a clear `terraform destroy` path for demo environments.
 
 ## Cleanup
 
 ```sh
-cd infra/terraform/environments/dev
+# For the live demo environment:
+cd infra/terraform/environments/live-demo
+terraform destroy
+
+# OR for the production-reference environment:
+cd infra/terraform/environments/production-reference
 terraform destroy
 ```
 

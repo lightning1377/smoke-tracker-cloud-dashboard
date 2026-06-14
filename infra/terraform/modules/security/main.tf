@@ -22,12 +22,6 @@ resource "aws_security_group" "database" {
   vpc_id      = var.vpc_id
 }
 
-resource "aws_security_group" "endpoint" {
-  name        = "${var.project_name}-endpoint-sg"
-  description = "Allow ECS tasks to reach private interface VPC endpoints."
-  vpc_id      = var.vpc_id
-}
-
 resource "aws_security_group_rule" "alb_http_ingress" {
   type              = "ingress"
   description       = "Allow public HTTP traffic to the API load balancer."
@@ -74,26 +68,6 @@ resource "aws_security_group_rule" "database_from_service_ingress" {
   security_group_id        = aws_security_group.database.id
   from_port                = 3306
   to_port                  = 3306
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.service.id
-}
-
-resource "aws_security_group_rule" "service_to_endpoints_egress" {
-  type                     = "egress"
-  description              = "Allow ECS tasks to reach private interface endpoints."
-  security_group_id        = aws_security_group.service.id
-  from_port                = 443
-  to_port                  = 443
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.endpoint.id
-}
-
-resource "aws_security_group_rule" "endpoint_from_service_ingress" {
-  type                     = "ingress"
-  description              = "Allow HTTPS from ECS tasks to interface endpoints."
-  security_group_id        = aws_security_group.endpoint.id
-  from_port                = 443
-  to_port                  = 443
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.service.id
 }

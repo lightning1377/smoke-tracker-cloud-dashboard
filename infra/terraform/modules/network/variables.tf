@@ -17,8 +17,3 @@ variable "public_subnet_cidrs" {
 variable "private_subnet_cidrs" {
   type = list(string)
 }
-
-variable "endpoint_security_group_id" {
-  type        = string
-  description = "Security group attached to interface VPC endpoints."
-}
