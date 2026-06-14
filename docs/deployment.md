@@ -164,11 +164,31 @@ _(Note: For ECS, database migrations run automatically on API startup, so no man
 For the `serverless-demo` environment, the deployment pipeline updates the Lambda functions instead of an ECS Service:
 
 1. Build and push the API container image to ECR.
-2. Invoke the **Migration Lambda** to execute Prisma database migrations before updating the API code:
+2. Update the **Migration Lambda** function code to use the newly pushed ECR image tag:
+   ```sh
+   aws lambda update-function-code --function-name "smoke-tracker-cloud-dashboard-migration" --image-uri "$ECR_REPOSITORY_URL:latest"
+   aws lambda wait function-updated-v2 --function-name "smoke-tracker-cloud-dashboard-migration"
+   ```
+3. Invoke the **Migration Lambda** to execute Prisma database migrations:
    ```sh
    aws lambda invoke --function-name "smoke-tracker-cloud-dashboard-migration" response.json
    ```
-3. Update the primary **API Lambda** function code to use the newly pushed ECR image tag:
+4. Update the primary **API Lambda** function code to use the newly pushed ECR image tag:
    ```sh
    aws lambda update-function-code --function-name "smoke-tracker-cloud-dashboard-api" --image-uri "$ECR_REPOSITORY_URL:latest"
+   aws lambda wait function-updated-v2 --function-name "smoke-tracker-cloud-dashboard-api"
    ```
+
+### Seeding the Serverless Database
+
+Since migrations run in a VPC-private Lambda function and the database is private, you cannot run `pnpm db:seed` locally. Instead, the migration Lambda wrapper script supports database seeding via invoke payloads:
+
+```sh
+aws lambda invoke \
+  --function-name "smoke-tracker-cloud-dashboard-migration" \
+  --payload '{"action": "seed"}' \
+  --cli-binary-format raw-in-base64-out \
+  response.json
+
+cat response.json
+```
