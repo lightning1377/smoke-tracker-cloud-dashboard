@@ -33,15 +33,42 @@ jobs:
           docker push "$ECR_REPOSITORY:latest"
         env:
           ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY_URL }}
-      - name: Deploy ECS service
+      - name: Deploy API (ECS or AWS Lambda)
         run: |
-          aws ecs update-service \
-            --cluster "$ECS_CLUSTER" \
-            --service "$ECS_SERVICE" \
-            --force-new-deployment
-          aws ecs wait services-stable \
-            --cluster "$ECS_CLUSTER" \
-            --services "$ECS_SERVICE"
+          if [ -n "$API_LAMBDA" ]; then
+            echo "Deploying to AWS Lambda serverless target..."
+            
+            # 1. Run Prisma database migrations
+            echo "Running Prisma migrations..."
+            aws lambda invoke --function-name "$MIGRATION_LAMBDA" response.json
+            cat response.json
+            if grep -q "FunctionError" response.json; then
+              echo "Error: Database migrations failed!"
+              exit 1
+            fi
+            
+            # 2. Update API Lambda code with new ECR image
+            echo "Updating Lambda function code..."
+            aws lambda update-function-code \
+              --function-name "$API_LAMBDA" \
+              --image-uri "$ECR_REPOSITORY:$GITHUB_SHA"
+            
+            # 3. Wait for Lambda update to complete
+            aws lambda wait function-updated-v2 \
+              --function-name "$API_LAMBDA"
+          else
+            echo "Deploying to AWS ECS Fargate target..."
+            aws ecs update-service \
+              --cluster "$ECS_CLUSTER" \
+              --service "$ECS_SERVICE" \
+              --force-new-deployment
+            aws ecs wait services-stable \
+              --cluster "$ECS_CLUSTER" \
+              --services "$ECS_SERVICE"
+          fi
         env:
           ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
           ECS_SERVICE: ${{ vars.ECS_SERVICE }}
+          API_LAMBDA: ${{ vars.API_LAMBDA_FUNCTION_NAME }}
+          MIGRATION_LAMBDA: ${{ vars.MIGRATION_LAMBDA_FUNCTION_NAME }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY_URL }}

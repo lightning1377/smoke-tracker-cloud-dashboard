@@ -56,7 +56,6 @@ resource "aws_lambda_function" "api" {
   environment {
     variables = {
       NODE_ENV             = "production"
-      AWS_REGION           = var.aws_region
       S3_EXPORT_BUCKET     = var.exports_bucket_name
       WEB_ORIGIN           = var.web_origin
       DATABASE_URL         = var.database_url
@@ -90,7 +89,6 @@ resource "aws_lambda_function" "migration" {
   environment {
     variables = {
       NODE_ENV     = "production"
-      AWS_REGION   = var.aws_region
       DATABASE_URL = var.database_url
     }
   }
