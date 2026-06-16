@@ -4,7 +4,7 @@ A production-style AWS deployment case study for an optional cloud dashboard com
 
 Built with React, TypeScript, Node.js, MySQL, Terraform, GitHub Actions, ECS Fargate, RDS, S3, CloudFront, Secrets Manager, and CloudWatch.
 
-_This dashboard is currently a standalone case study and is not integrated with the Smoke Tracker mobile app._
+_This dashboard is currently a standalone case study and is not integrated with [the Smoke Tracker mobile app](https://github.com/lightning1377/smoke-tracker-public)._
 
 ## Product Scope
 
