@@ -78,6 +78,7 @@ module "rds" {
   database_username            = var.database_username
   database_password            = var.database_password
   database_password_secret_arn = module.secrets.database_password_secret_arn
+  engine_version               = var.database_engine_version
 }
 
 module "monitoring" {

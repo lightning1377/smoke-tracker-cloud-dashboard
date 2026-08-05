@@ -14,7 +14,7 @@ The dashboard is an opt-in cloud companion for users who want to sync Smoke Trac
 
 - Frontend: React, TypeScript, Vite, TanStack Query, React Router, Recharts
 - Backend: Node.js, TypeScript, Fastify, Prisma, Zod
-- Database: MySQL 8 on Amazon RDS
+- Database: MySQL 8.4+ on Amazon RDS
 - Auth: JWT access tokens with refresh token rotation
 - Runtime: Docker, ECS Fargate, Application Load Balancer
 - Frontend hosting: S3 and CloudFront

@@ -48,3 +48,10 @@ variable "api_image" {
   type        = string
   description = "Full ECR image URI for the API task definition."
 }
+
+variable "database_engine_version" {
+  type        = string
+  description = "RDS MySQL engine version"
+  default     = "8.4"
+}
+

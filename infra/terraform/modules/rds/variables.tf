@@ -26,3 +26,10 @@ variable "database_password" {
 variable "database_password_secret_arn" {
   type = string
 }
+
+variable "engine_version" {
+  type        = string
+  description = "MySQL engine version"
+  default     = "8.4"
+}
+
